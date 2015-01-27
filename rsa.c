@@ -11,6 +11,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
 // header files
@@ -89,6 +90,56 @@ int gcd(int a, int b)
 }
 
 /**
+ * Generates an RSA keypair
+ */
+RSAkey* genRSAkey(void)
+{
+	int p, q, e, d;
+
+	srand(time(NULL));
+
+	// generate pseudo-random different prime numbers
+	do
+	{
+		p = genPrime();
+		q = genPrime();
+	}
+	while (p == q);
+
+	// modulus
+	int n = p * q;
+	// Euler's totient
+	int phi = (p - 1) * (q - 1);
+
+	// generate public key exponent
+	do
+	{
+		e = genPrime();
+	}
+	while (e <= 1 || e >= phi || gcd(e, phi) != 1);
+
+	// use Euclid's Extender Algorithm to determine d
+	do
+	{
+		d = extended_euclid(phi, e);
+	}
+	while (d == e);
+
+	// validate d
+	if (d > phi)
+		d = d % phi;
+	if (d < 0)
+		d = d + phi;
+		
+	RSAkey* pair = malloc(sizeof(*pair));
+	pair->e = e;
+	pair->d = d;
+	pair->n = n;
+	
+	return pair;
+}
+
+/**
  * Generates a random prime number
  */
 int genPrime(void)
@@ -103,6 +154,36 @@ int genPrime(void)
 	while (!isPrime(r));
 	
 	return r;
+}
+
+/**
+ * Takes a filename as input and returns its extension if it has any, else NULL
+ */
+char* getExtension(char* filename)
+{
+	int l = strlen(filename);
+	int k = 0, i = 0;
+	
+	// count length of the extension
+	for (i = l - 1; filename[i] != '.' && i >= 0; i--)
+	{
+		k++;
+	}
+	
+	// if no '.' was found, file has no extension
+	if (i == -1)
+	{
+		return NULL;
+	}
+	
+	// store extension in a char* and return it
+	char* ext = malloc(sizeof(char) * k);
+	for (int j = 0; j < k; j++)
+	{
+		ext[j] = filename[l - k + j];
+	}
+	
+	return ext;
 }
 
 /**
