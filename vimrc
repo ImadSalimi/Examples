@@ -1,7 +1,8 @@
 " Always show status line
 set laststatus=2
-" Enable 256-colors mode
-set t_Co=256
+
+" Use 16 color palette
+set t_Co=16
 
 " Source .vimrc after saving it
 if has("autocmd")
@@ -11,7 +12,8 @@ endif
 "===================
 " Color Schemes
 "===================
-colorscheme railscasts
+set background=dark
+colorscheme solarized
 
 "===================
 " Plugins
