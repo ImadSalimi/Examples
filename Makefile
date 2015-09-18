@@ -1,7 +1,7 @@
 #
 # Makefile
 # ========
-# Simple RSA Encryption/Decryption
+# Simple 16-bit RSA Encryption/Decryption
 #
 # Imad Salimi
 #
