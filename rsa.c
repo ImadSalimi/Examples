@@ -26,9 +26,7 @@ void dec_to_bin(int n, int d[], int k)
 	int i = 0, end = k - 1;
 	
 	for (int i = 0; i < k; i++)
-	{
 		d[i] = 0;
-	}
 	
 	while(n > 0)
 	{
