@@ -5,6 +5,9 @@
  * Functions that help generate rsa keypairs
  */
 
+#ifndef RSA_H
+#define RSA_H
+
 // maximum value that genPrime() can generate, to not go as big as 32 bit numbers
 #define MAX 46340
 
@@ -59,3 +62,5 @@ int mod_exp(int a, int b, int n);
  * a function to compute (a^b) % c
  */
 int modulo(int a, int b, int c);
+
+#endif
