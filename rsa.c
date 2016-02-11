@@ -23,20 +23,21 @@
 void dec_to_bin(int n, int d[], int k)
 {
 	int t;
-	int i = 0, end = k - 1;
+	int pos = 0, end = k - 1, i;
 	
-	for (int i = 0; i < k; i++)
+	for (i = 0; i < k; i++)
 		d[i] = 0;
 	
 	while(n > 0)
 	{
-		d[i] = n % 2;
-		i++;
+		d[pos] = n % 2;
+		pos++;
 		n = n / 2;
 	}
 	
 	// reverse array's elements
-	for (int c = 0; c < k/2; c++)
+	int c;
+	for (c = 0; c < k/2; c++)
 	{
 		t = d[c];
 		d[c]   = d[end];
@@ -160,7 +161,7 @@ int genPrime(void)
 char* getExtension(char* filename)
 {
 	int l = strlen(filename);
-	int k = 0, i = 0;
+	int k = 0, i = 0, j = 0;
 	
 	// count length of the extension
 	for (i = l - 1; filename[i] != '.' && i >= 0; i--)
@@ -176,7 +177,7 @@ char* getExtension(char* filename)
 	
 	// store extension in a char* and return it
 	char* ext = malloc(sizeof(char) * k);
-	for (int j = 0; j < k; j++)
+	for (j = 0; j < k; j++)
 	{
 		ext[j] = filename[l - k + j];
 	}
@@ -195,7 +196,8 @@ bool isPrime(int n)
 	
 	// check if there's a number from 2 to sqrt(n) that divides n, in which case
 	// n wouldn't be prime
-	for (int i = 2; i <= sqrt(n); i++)
+	int i;
+	for (i = 2; i <= sqrt(n); i++)
 	{
 		if (n % i == 0)
 			return false;
@@ -236,7 +238,8 @@ int modulo(int a, int b, int c)
     // res is kept as int because intermediate results might overflow in "int"
 	long long res = 1;
 
-	for(int i = 0; i < b; i++)
+	int i;
+	for(i = 0; i < b; i++)
 	{
 		res *= a;
 		res %= c; // this step is valid because (a*b)%c = ((a%c)*(b%c))%c

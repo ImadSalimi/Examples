@@ -12,17 +12,17 @@
 // header files
 #include "rsa.h"
 
-int main(int argc, char* argv[])
+int decrypt()
 {
 	// ensure proper usage
-	if (argc != 3)
-	{
-		printf("Usage: ./decrypt hashfile outfile (w/o extension)\n");
-		return 1;
-	}
+	char hash[100], out[100];
+	printf("Fichier encrypte: ");
+	scanf("%s", hash);
+	printf("Nom du fichier de sortie (sans extension): ");
+	scanf("%s", out);
 	
 	// open hash file for reading
-	FILE* infile = fopen(argv[1], "r");
+	FILE* infile = fopen(hash, "r");
 	if (infile == NULL)
 	{
 		printf("Can't find hash file\n");
@@ -48,15 +48,15 @@ int main(int argc, char* argv[])
 	// make sure it's valid
 	if (mod_exp(mod_exp(k, key->e, key->n), key->d, key->n) != k)
 	{
-		printf("\"hash\" isn't a supported hashfile\n");
+		printf("\"%s\" isn't a supported hashfile\n", hash);
 		return 3;
 	}
 	
 	// open outfile for writing
-	int m = strlen(argv[2]);
+	int m = strlen(out);
 	int l = (ext == NULL) ? m : m + 1 + k;
 	char* filename = malloc(sizeof(char) * (l + 1));
-	filename = (ext == NULL) ? argv[2] : strcat(strcat(argv[2], "."), ext);
+	filename = (ext == NULL) ? out : strcat(strcat(out, "."), ext);
 	filename[l] = '\0';
 	
 	FILE* outfile = fopen(filename, "w");

@@ -5,7 +5,6 @@
  */
 
 // standard libraries
-#include <cs50.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -16,20 +15,20 @@
 // header files
 #include "rsa.h"
 
-int main(int argc, char* argv[])
+int encrypt()
 {
-	// ensure proper usage
-	if (argc != 3)
-	{
-		printf("Usage: ./encrypt infile outfile\n");
-		return 1;
-	}
+	// Read in filename
+	char filename[100], out[100];
+    printf("Fichier a crypter: ");
+	scanf("%s", filename);
+	printf("Nom du fichier de sortie: ");
+	scanf("%s", out);
 	
 	// open file for reading
-	FILE* infile = fopen(argv[1], "r");
+	FILE* infile = fopen(filename, "r");
 	if (infile == NULL)
 	{
-		printf("Couldn't open %s\n", argv[1]);
+		printf("Couldn't open %s\n", filename);
 		return 1;
 	}
 	
@@ -37,14 +36,14 @@ int main(int argc, char* argv[])
 	RSAkey* key = genRSAkey();
 	
 	// create file signature
-	char* ext = getExtension(argv[1]);
+	char* ext = getExtension(filename);
 	int k = 0;
 	if (ext != NULL)
 	{
 		k = strlen(ext);
 	}
 	
-	FILE* outfile = fopen(argv[2], "w");
+	FILE* outfile = fopen(out, "w");
 	if (outfile == NULL)
 	{
 		printf("Error while trying to create outfile\n");
@@ -67,7 +66,7 @@ int main(int argc, char* argv[])
 		fwrite(&c, sizeof(int), 1, outfile);
 	}
 	
-	printf("The encrypted data is in the file %s!\n", argv[2]);
+	printf("The encrypted data is in the file %s!\n", out);
 	
 	// free the memory
 	free(ext);
